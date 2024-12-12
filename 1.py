@@ -6,7 +6,7 @@ from io import BytesIO
 
 # Set Streamlit page configuration
 st.set_page_config(
-    page_title="B-Tech Admissions Seat Allotment System",
+    page_title="College Admissions Seat Allotment System ",
     layout="wide",
     initial_sidebar_state="expanded",
 )
