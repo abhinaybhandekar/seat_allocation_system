@@ -11,11 +11,11 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.title("🎓 B-Tech Admissions Seat Allotment System")
+st.title("🎓 College Admissions Seat Allotment System")
 
 # Define Quotas, Branches, Categories, and Subcategories
 quotas = ['Chattishgarh Quota', 'NTPC']
-branches = ['CSE', 'ECE']
+branches = ['CSE', 'DSAI','ECE']
 categories = ['General', 'ST', 'SC', 'OBC']
 subcategories = ['PWD', 'FF', 'F', 'OPEN']
 
@@ -23,6 +23,12 @@ subcategories = ['PWD', 'FF', 'F', 'OPEN']
 default_seat_matrix = {
     'Chattishgarh Quota': {
         'CSE': {
+            'General': {'PWD':1, 'FF':1, 'F':4, 'OPEN':6},
+            'ST': {'F':3, 'OPEN':7},
+            'SC': {'F':1, 'OPEN':3},
+            'OBC': {'F':1, 'OPEN':3}
+        },
+        'DSAI': {
             'General': {'PWD':1, 'FF':1, 'F':4, 'OPEN':6},
             'ST': {'F':3, 'OPEN':7},
             'SC': {'F':1, 'OPEN':3},
@@ -41,6 +47,12 @@ default_seat_matrix = {
             'ST': {'F':0, 'OPEN':1},
             'SC': {'F':0, 'OPEN':1},
             'OBC': {'F':0, 'OPEN':2}
+        },
+        'DSAI': {
+            'General': {'PWD':1, 'FF':1, 'F':4, 'OPEN':6},
+            'ST': {'F':3, 'OPEN':7},
+            'SC': {'F':1, 'OPEN':3},
+            'OBC': {'F':1, 'OPEN':3}
         },
         'ECE': {
             'General': {'PWD':0, 'FF':0, 'F':0, 'OPEN':5},
@@ -112,7 +124,7 @@ def allocate_seats(df, seat_matrix):
         # Phase 1: Allocate Reserved category applicants
         for idx, applicant in df_reserved.iterrows():
             allocated = False
-            for pref in ['PreferenceNo 1', 'PreferenceNo 2']:
+            for pref in ['PreferenceNo 1', 'PreferenceNo 2', 'PreferenceNo 3']:
                 branch = applicant.get(pref, '').strip()
                 if branch not in branches:
                     continue  # Invalid branch preference
@@ -161,7 +173,7 @@ def allocate_seats(df, seat_matrix):
         # Phase 3: Allocate seats to General category applicants (including converted seats)
         for idx, applicant in df_general.iterrows():
             allocated = False
-            for pref in ['PreferenceNo 1', 'PreferenceNo 2']:
+            for pref in ['PreferenceNo 1', 'PreferenceNo 2', 'PreferenceNo 3']:
                 branch = applicant.get(pref, '').strip()
                 if branch not in branches:
                     continue  # Invalid branch preference
@@ -250,7 +262,7 @@ if uploaded_file:
         # Validate required columns
         required_columns = ['S. No.', 'CandName', 'CategoryFullName', 'Gender', 'PD', 'FF',
                             'Sainik', 'JEE_GeneralRank', 'Quota', 'RegistrationNo',
-                            'PreferenceNo 1', 'PreferenceNo 2']
+                            'PreferenceNo 1', 'PreferenceNo 2', 'PreferenceNo 3']
         if not all(column in df.columns for column in required_columns):
             st.error("The uploaded Excel file does not contain the required columns.")
         else:
